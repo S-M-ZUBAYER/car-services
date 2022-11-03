@@ -1,11 +1,14 @@
+import { GoogleAuthProvider } from 'firebase/auth';
 import { Result } from 'postcss';
 import React, { useContext } from 'react';
+import { FaFacebook, FaGithub, FaGoogle } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import img from '../../assets/images/login/login.svg'
 import { AuthContext } from '../../context/AuthProvider/AuthProvider';
 
 const LogIn = () => {
-    const { logIn } = useContext(AuthContext);
+    const { logIn, LogInWithGoogle } = useContext(AuthContext);
+    const googleProvider = new GoogleAuthProvider();
     const handleToLogin = (e) => {
         e.preventDefault();
         const form = e.target;
@@ -17,6 +20,20 @@ const LogIn = () => {
                 console.log(user);
             })
             .catch(err => console.error(err))
+    }
+    const SignInWithGoogle = () => {
+        LogInWithGoogle(googleProvider)
+            .then((result) => {
+                const user = result.user;
+                console.log(user)
+                // if (user?.uid) {
+                //     navigate(from, { replace: true });
+                // }
+                // else {
+                //     toast("register firest")
+                // }
+            })
+            .catch(error => console.error(error))
     }
     return (
         <div className="hero w-full my-20">
@@ -46,6 +63,11 @@ const LogIn = () => {
                             <input type="submit" className="btn btn-accent" value="Login" />
                         </div>
                     </form>
+                    <div className="text-center">
+                        <button onClick={SignInWithGoogle} >< FaGoogle className="text-black mr-3" /> </button>
+                        <button>< FaFacebook className="text-black mr-3" /> </button>
+                        <button>< FaGithub className="text-black" /> </button>
+                    </div>
                     <p className="text-center text-black">New to genius car service <Link className="font-bold text-orange-700" to='/register'>Sign Up</Link></p>
                 </div>
             </div>

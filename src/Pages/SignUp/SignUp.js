@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import img from '../../assets/images/login/login.svg'
 import { AuthContext } from '../../context/AuthProvider/AuthProvider';
+import { FaBeer, FaFacebook, FaGithub, FaGoogle } from 'react-icons/fa';
 
 const SignUp = () => {
     const { createUser } = useContext(AuthContext);
@@ -52,6 +53,11 @@ const SignUp = () => {
                             <input type="submit" className="btn btn-accent" value="Sign Up" />
                         </div>
                     </form>
+                    <div className="text-center">
+                        <button>< FaGoogle className="text-black mr-3" /> </button>
+                        <button>< FaFacebook className="text-black mr-3" /> </button>
+                        <button>< FaGithub className="text-black" /> </button>
+                    </div>
                     <p className="text-center text-black">Already Have an Account? Please <Link className="font-bold text-orange-700" to='/login'>Log In</Link></p>
                 </div>
             </div>
