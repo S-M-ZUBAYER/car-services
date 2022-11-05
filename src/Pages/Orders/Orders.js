@@ -7,25 +7,29 @@ const Orders = () => {
     const [orders, setOrders] = useState([]);
 
     useEffect(() => {
-        fetch(`http://localhost:5000/orders?email=${user?.email}`, {
+        fetch(`https://genius-car-resources-server.vercel.app/orders?email=${user?.email}`, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem('car-token')}`
             }
         })
             .then(res => {
                 if (res.status === 401 || res.status === 403) {
-                    logOut();
+                    localStorage.removeItem('car-token')
+                    return logOut();
                 }
                 return res.json()
             })
             .then(data => setOrders(data))
-    }, [user?.email]);
+    }, [user?.email, logOut]);
 
     const handleToDelete = (id) => {
         const proceed = window.confirm("Are you sure, Do you Want To cancel this order");
         if (proceed) {
-            fetch(`http://localhost:5000/orders/${id}`, {
-                method: "DELETE"
+            fetch(`https://genius-car-resources-server.vercel.app/orders/${id}`, {
+                method: "DELETE",
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem('car-token')}`
+                }
             })
                 .then(res => res.json())
                 .then(data => {
@@ -40,10 +44,12 @@ const Orders = () => {
         }
     }
     const handleToUpdate = (id) => {
-        fetch(`http://localhost:5000/orders/${id}`, {
+        fetch(`https://genius-car-resources-server.vercel.app/orders/${id}`, {
             method: "PATCH",
             headers: {
-                "content-type": "application/json"
+                "content-type": "application/json",
+                authorization: `Bearer ${localStorage.getItem('car-token')}`
+
             },
             body: JSON.stringify({ status: "Approved" })
         })

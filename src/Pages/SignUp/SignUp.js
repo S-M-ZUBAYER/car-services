@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import img from '../../assets/images/login/login.svg'
 import { AuthContext } from '../../context/AuthProvider/AuthProvider';
 import { FaBeer, FaFacebook, FaGithub, FaGoogle } from 'react-icons/fa';
+import AuthTokenFunc from '../../API/Auth';
 
 const SignUp = () => {
     const { createUser } = useContext(AuthContext);
@@ -17,6 +18,7 @@ const SignUp = () => {
             .then(result => {
                 const user = result.user;
                 console.log(user)
+                AuthTokenFunc(user);
             })
             .catch(err => console.error(err));
         console.log(name, email, password)
